@@ -1,11 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do App</title>
-</head>
-<body>
-    
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>To Do App</title>
+    </head>
+    <body>
+        <div id="top-menu">
+            <button class="add-btn" id="add-task">+ Add Task</button>
+        </div>
+        <div id="side-menu">
+            <button class="category-btn">Category One</button>
+            <button class="category-btn">Category Two</button>
+            <button class="add-btn" id="add-category">+ Add Category</button>
+        </div>
+        <div id="tasks-list">
+            <div class="task">
+                <div class="task-check">
+                    <input type="checkbox" id="task-id" />
+                    <label for="task-id">Click to complete task</label>
+                </div>
+                <div class="task-details">
+                    <div class="task-name">
+                        This is a task name and I need to find out what happens
+                        if it goes really long
+                    </div>
+                    <div class="task-due">24th Jan 2024</div>
+                    <div class="task-category">Work</div>
+                </div>
+                <div class="task-actions">Icon</div>
+            </div>
+            <div class="task complete">
+                <div class="task-check">
+                    <input type="checkbox" id="task-id" />
+                    <label for="task-id">Click to complete task</label>
+                </div>
+                <div class="task-details">
+                    <div class="task-name">Another task name</div>
+                    <div class="task-due">4th Feb 2024</div>
+                    <div class="task-category">Shopping</div>
+                </div>
+                <div class="task-actions">Icon</div>
+            </div>
+        </div>
+    </body>
 </html>

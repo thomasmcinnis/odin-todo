@@ -1,0 +1,142 @@
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    font-style: italic;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+    isolation: isolate;
+}
+
+:root {
+    --color-primary: hsl(0, 0%, 36%);
+    --color-muted: hsl(0, 0%, 64%);
+}
+
+body {
+    font-family: sans-serif;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+
+    max-width: 62rem;
+    margin: 2rem auto;
+
+    display: grid;
+    grid-template-columns: 3fr 4fr 3fr;
+    row-gap: 1rem;
+}
+
+#top-menu {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+}
+
+#side-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 0 1rem;
+}
+
+button {
+    padding: 0.5rem 0;
+    color: var(--color-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &#add-task {
+        height: 3rem;
+        padding: 1rem 2rem;
+    }
+
+    &:hover {
+        color: var(--color-primary);
+    }
+}
+
+#tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.task {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-left: 1px solid transparent;
+
+    line-height: 1.4;
+
+    & label {
+        display: none;
+    }
+
+    &.overdue {
+        border-color: red;
+    }
+}
+
+.task-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.task-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.complete .task-name {
+    text-decoration: line-through;
+    color: var(--color-muted);
+    font-weight: 500;
+}

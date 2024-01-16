@@ -1,5 +1,8 @@
+import './style.css';
+
 /**
  * A class for constructing Category Objects
+ *  - Takes an object which must contain `name`
  */
 class Category {
     constructor(formData) {
@@ -18,12 +21,17 @@ class Category {
 
     updateName(newName) {
         this.name = newName;
-        // call the CategoryList updater interface to sync change
+        CategoryList.updateStore();
     }
 }
 
 /**
  * A class for constructing Task Objects
+ *  - Takes an object which must contain `name`
+ *  - Optionally includes
+ *      - category: id of category in Categories
+ *      - dueDate: Date
+ *      - isUrgent: Bool
  */
 class Task {
     constructor(formData) {
@@ -101,7 +109,7 @@ class ListManager {
         if (!this.items) this.initialise();
 
         this.items.push(new this.ItemClass(item));
-        this.#updateStore();
+        this.updateStore();
     }
 
     // Method to delete item from items list
@@ -116,14 +124,16 @@ class ListManager {
 
         this.items = filteredItems;
 
-        this.#updateStore();
+        this.updateStore();
     }
 
     // Method to trigger updating the storage from items list
-    #updateStore() {
+    updateStore() {
         StoreManager.updateStore(this.LIST_KEY, this.getItems());
     }
 }
 
 const TaskList = new ListManager('task-list-store', Task);
 const CategoryList = new ListManager('category-list-store', Category);
+
+console.log(TaskList.getItems());

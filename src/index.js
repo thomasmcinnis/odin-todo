@@ -2,11 +2,14 @@
  * A class for constructing Category Objects
  */
 class Category {
-    constructor({ name, id }) {
-        if (!name) throw new Error('Category name is required');
+    constructor(formData) {
+        if (!formData || !formData.name)
+            throw new Error('Category name is required');
 
+        const { id, name } = formData;
+
+        this.id = id === undefined ? self.crypto.randomUUID() : id;
         this.name = name;
-        this.id === undefined ? self.crypto.randomUUID() : id;
     }
 
     deleteSelf() {
@@ -71,118 +74,56 @@ class StoreManager {
 }
 
 /**
- * A singleton class providing public interfaces to work with the task list
+ * A class for constructing List Objects
  */
-class TaskList {
-    static #LIST_KEY = 'task-list-store';
-    // Initialise taskList with localStorage
-    static #items;
-
-    // Private method to call if tasks is undefined to initialise from store
-    static #initialise() {
-        const store = StoreManager.loadStore(this.#LIST_KEY);
-
-        if (!store) {
-            this.#items = [];
-        } else {
-            this.#items = store.map((item) => new Task(item));
-        }
+class ListManager {
+    constructor(listKey, ItemClass) {
+        this.LIST_KEY = listKey;
+        this.ItemClass = ItemClass;
+        this.items;
     }
 
-    // Public method to get tasks
-    static getItems() {
-        if (!this.#items) this.#initialise();
+    // Method to call if tasks is undefined to initialise from store
+    initialise() {
+        const store = StoreManager.loadStore(this.LIST_KEY);
 
-        return this.#items;
+        this.items = store ? store.map((item) => new this.ItemClass(item)) : [];
     }
 
-    // Public method to add task
-    static addItem(task) {
-        if (!this.#items) this.#initialise();
-
-        this.#items.push(task);
-
-        StoreManager.updateStore(this.#LIST_KEY, this.getTasks());
+    // Method to get items list
+    getItems() {
+        if (!this.items) this.initialise();
+        return this.items;
     }
 
-    // Public method to delete task
-    static deleteItem(id) {
-        if (!this.#items) this.#initialise();
+    // Method to add item to items list
+    addItem(item) {
+        if (!this.items) this.initialise();
 
-        if (this.#items.length === 0) return;
+        this.items.push(new this.ItemClass(item));
+        this.#updateStore();
+    }
 
-        const filteredItems = this.#items.filter((item) => {
+    // Method to delete item from items list
+    deleteItem(id) {
+        if (!this.items) this.initialise();
+
+        if (this.items.length === 0) return;
+
+        const filteredItems = this.items.filter((item) => {
             return item.id !== id;
         });
 
-        this.#items = filteredItems;
+        this.items = filteredItems;
 
-        StoreManager.updateStore(this.#LIST_KEY, this.getItems());
+        this.#updateStore();
     }
 
-    // Public method to trigger updating the storage for changes to tasks
-    static updateStore() {
-        StoreManager.updateStore(this.#LIST_KEY, this.getItems());
-    }
-}
-
-/**
- * A singleton class to manage the list of categories
- */
-class CategoryList {
-    static #LIST_KEY = 'category-list-store';
-    static #items;
-
-    // Private method to call if categories list is undefined to initialise from store
-    static #initialise() {
-        const store = StoreManager.loadStore(this.#LIST_KEY);
-
-        if (!store) {
-            this.#items = [];
-        } else {
-            this.#items = store.map((item) => new Category(item));
-        }
-    }
-
-    // Public method to get tasks
-    static getItems() {
-        if (!this.#items) this.#initialise();
-
-        return this.#items;
-    }
-
-    // Public method to add task
-    static addItem(task) {
-        if (!this.#items) this.#initialise();
-
-        this.#items.push(task);
-
-        StoreManager.updateStore(this.#LIST_KEY, this.getItems());
-    }
-
-    // Public method to delete task
-    static deleteItem(id) {
-        if (!this.#items) this.#initialise();
-
-        if (this.#items.length === 0) return;
-
-        const filteredItems = this.#items.filter((item) => {
-            return item.id !== id;
-        });
-
-        this.#items = filteredItems;
-
-        StoreManager.updateStore(this.#LIST_KEY, this.getItems());
-    }
-
-    // Public method to trigger updating the storage for changes to tasks
-    static updateStore() {
-        StoreManager.updateStore(this.#LIST_KEY, this.getItems());
+    // Method to trigger updating the storage from items list
+    #updateStore() {
+        StoreManager.updateStore(this.LIST_KEY, this.getItems());
     }
 }
 
-// CategoryList.addItem(new Category({ name: 'Category Name' }));
-console.log(TaskList.getItems());
-console.log(CategoryList.getItems());
-
-// CategoryList.getItems()[0].deleteSelf();
+const TaskList = new ListManager('task-list-store', Task);
+const CategoryList = new ListManager('category-list-store', Category);

@@ -54,6 +54,11 @@ h6 {
 :root {
     --color-primary: hsl(0, 0%, 36%);
     --color-muted: hsl(0, 0%, 64%);
+    --color-innactive: hsl(0, 0%, 80%);
+
+    & :focus-visible {
+        outline: solid 1px var(--color-muted);
+    }
 }
 
 body {
@@ -99,13 +104,33 @@ button {
     }
 }
 
+.action-btn {
+    padding: 0;
+    width: 1.1rem;
+    color: var(--color-muted);
+    opacity: 0;
+
+    &:hover {
+        color: var(--color-primary);
+        opacity: 1;
+    }
+
+    &[urgent='true'] {
+        opacity: 1;
+    }
+}
+
+ul {
+    padding-left: 0;
+}
+
 #tasks-list {
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
-#tasks-list > div {
+#tasks-list > li {
     display: flex;
     gap: 0.75rem;
     padding: 0.5rem 1rem;

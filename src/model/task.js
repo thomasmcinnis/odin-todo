@@ -29,4 +29,17 @@ export default class Task {
         this.isComplete = isComplete === undefined ? false : isComplete;
         this.createdDate = createdDate === undefined ? new Date() : createdDate;
     }
+
+    toggle(action) {
+        switch (action) {
+            case 'urgent':
+                this.isUrgent = !this.isUrgent;
+                break;
+            case 'complete':
+                this.isComplete = !this.isComplete;
+                break;
+            default:
+                throw new Error('value does not exist on object');
+        }
+    }
 }

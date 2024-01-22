@@ -39,14 +39,14 @@ export default class ListManager {
         return this.itemsList;
     }
 
-    getItem(UID) {
-        const item = this.itemsList.find(({ id }) => id === UID);
+    #getItemIndex(UID) {
+        const index = this.itemsList.findIndex(({ id }) => id === UID);
 
-        if (!item) {
+        if (index === null) {
             throw new Error('The selected item was not found in the list');
         }
 
-        return item;
+        return index;
     }
 
     // Methods to add and remove items
@@ -70,6 +70,19 @@ export default class ListManager {
 
         this.itemsList = filteredItems;
 
+        this.notifySubs(this.getItems());
+        this.updateStore();
+    }
+
+    // Methods to mutate items
+    toggleField(action, id) {
+        const itemIndex = this.#getItemIndex(id);
+
+        try {
+            this.itemsList[itemIndex].toggle(action);
+        } catch (err) {
+            console.error(err.message);
+        }
         this.notifySubs(this.getItems());
         this.updateStore();
     }

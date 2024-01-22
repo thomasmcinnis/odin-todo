@@ -29,7 +29,7 @@ function handleTaskListClick(event) {
     }
 
     if (action === 'urgent' || action === 'complete') {
-        // taskList.toggle(action, taskID)
+        taskList.toggleField(action, taskID);
         return;
     }
 

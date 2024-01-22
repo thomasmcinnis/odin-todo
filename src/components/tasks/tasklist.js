@@ -29,7 +29,7 @@ function renderTaskDetails(name, category, date) {
     if (date) {
         const taskDate = document.createElement('p');
         taskDate.textContent = date;
-        taskDate.classList.add('task-date');
+        taskDate.classList.add('task-due');
         taskDetails.appendChild(taskDate);
     }
 
@@ -43,7 +43,7 @@ function renderTaskDetails(name, category, date) {
     return taskDetails;
 }
 
-function renderCheckBox() {
+function renderCheckBox(isComplete) {
     // Create the checkbox
     const checkboxWrapper = document.createElement('div');
     checkboxWrapper.setAttribute('aria-label', 'Complete task');
@@ -58,7 +58,7 @@ function renderCheckBox() {
 }
 
 function renderTaskItem(taskObject, index) {
-    const { name, date, category, isUrgent } = taskObject;
+    const { name, date, category, isUrgent, isComplete } = taskObject;
 
     // Create the container
     const listItem = document.createElement('li');
@@ -66,7 +66,7 @@ function renderTaskItem(taskObject, index) {
     listItem.setAttribute('tabindex', 0);
 
     // Add content
-    listItem.appendChild(renderCheckBox());
+    listItem.appendChild(renderCheckBox(isComplete));
     listItem.appendChild(renderTaskDetails(name, date, category));
     listItem.appendChild(renderUrgentBtn(isUrgent));
 
@@ -75,6 +75,12 @@ function renderTaskItem(taskObject, index) {
 
 export default function renderTaskList(tasks) {
     const tasksList = document.getElementById('tasks-list');
+
+    let child = tasksList.lastElementChild;
+    while (child) {
+        tasksList.removeChild(child);
+        child = tasksList.lastElementChild;
+    }
 
     tasks.forEach((taskObject, index) => {
         tasksList.appendChild(renderTaskItem(taskObject, index));

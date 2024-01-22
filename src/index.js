@@ -1,14 +1,15 @@
 import './style.css';
 
-import { taskList, categoryList, Task, Category } from './model';
+import ListManager from './model/list-manager';
+import Task from './model/task';
 import renderTaskList from './components/tasks/tasklist';
 
-const tasks = taskList.getItems();
+const taskList = new ListManager('task-list-store', Task);
 
-// taskList.addItem({
-//     name: 'That was a lie this is the last item',
-//     category: 'Shopping',
-//     isUrgent: true,
-// });
+taskList.sub(renderTaskList);
 
-renderTaskList(tasks);
+taskList.initList();
+
+// initialise event listeners and callback relevant taskList functions
+
+// taskList.addItem({ name: 'this is another task' });

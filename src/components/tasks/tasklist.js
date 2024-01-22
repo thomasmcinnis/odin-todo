@@ -6,6 +6,7 @@ function renderUrgentBtn(isUrgent) {
     urgentButton.setAttribute('tabindex', -1);
 
     if (isUrgent) urgentButton.setAttribute('urgent', 'true');
+    urgentButton.setAttribute('data-action', 'urgent');
     urgentButton.classList.add('action-btn');
 
     urgentButton.innerHTML = `
@@ -51,18 +52,19 @@ function renderCheckBox(isComplete) {
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('tabindex', -1);
+    checkbox.setAttribute('data-action', 'complete');
 
     checkboxWrapper.appendChild(checkbox);
 
     return checkboxWrapper;
 }
 
-function renderTaskItem(taskObject, index) {
-    const { name, date, category, isUrgent, isComplete } = taskObject;
+function renderTaskItem(taskObject) {
+    const { id, name, date, category, isUrgent, isComplete } = taskObject;
 
     // Create the container
     const listItem = document.createElement('li');
-    listItem.setAttribute('data-id', index);
+    listItem.setAttribute('data-id', id);
     listItem.setAttribute('tabindex', 0);
 
     // Add content

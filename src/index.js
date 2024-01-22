@@ -10,6 +10,34 @@ taskList.sub(renderTaskList);
 
 taskList.initList();
 
-// initialise event listeners and callback relevant taskList functions
+// taskList.addItem({ name: 'What about me', isUrgent: true });
 
-// taskList.addItem({ name: 'this is another task' });
+function handleTaskListClick(event) {
+    // only handle clicks on elements with an action attribute
+    const actionEl = event.target.closest('[data-action]');
+    if (!actionEl) return;
+
+    const action = actionEl.dataset.action;
+    const taskID = event.target.closest('[data-id').dataset.id;
+
+    // invoke relevant action with UID of task
+    console.log(`Will do ${action} on task with ID ${taskID}`);
+
+    if (action === 'delete') {
+        taskList.deleteItem(taskID);
+        return;
+    }
+
+    if (action === 'urgent' || action === 'complete') {
+        // taskList.toggle(action, taskID)
+        return;
+    }
+
+    if (action === 'edit') {
+        // openEditDialog(taskID)
+        return;
+    }
+}
+
+const tasksListElement = document.getElementById('tasks-list');
+tasksListElement.addEventListener('click', handleTaskListClick);

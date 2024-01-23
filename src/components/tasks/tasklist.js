@@ -66,6 +66,7 @@ function renderTaskItem(taskObject) {
     const listItem = document.createElement('li');
     listItem.setAttribute('data-id', id);
     listItem.setAttribute('tabindex', 0);
+    if (isComplete) listItem.classList.add('complete');
 
     // Add content
     listItem.appendChild(renderCheckBox(isComplete));
@@ -78,13 +79,15 @@ function renderTaskItem(taskObject) {
 export default function renderTaskList(tasks) {
     const tasksList = document.getElementById('tasks-list');
 
-    let child = tasksList.lastElementChild;
-    while (child) {
-        tasksList.removeChild(child);
-        child = tasksList.lastElementChild;
+    // Remove current children
+    while (tasksList.firstChild) {
+        tasksList.removeChild(tasksList.firstChild);
     }
 
-    tasks.forEach((taskObject, index) => {
-        tasksList.appendChild(renderTaskItem(taskObject, index));
+    // TODO: Sort by date and completion status
+    // TODO: Filter by selected category
+
+    tasks.forEach((taskObject) => {
+        tasksList.appendChild(renderTaskItem(taskObject));
     });
 }

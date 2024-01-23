@@ -10,7 +10,11 @@ taskList.sub(renderTaskList);
 
 taskList.initList();
 
-// taskList.addItem({ name: 'What about me', isUrgent: true });
+// taskList.addItem({
+//     name: 'What about me',
+//     isUrgent: true,
+//     category: 'Shopping',
+// });
 
 function handleTaskListClick(event) {
     // only handle clicks on elements with an action attribute

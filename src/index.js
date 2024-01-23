@@ -4,6 +4,7 @@ import ListManager from './model/list-manager';
 import Task from './model/task';
 import renderTaskList from './components/tasks/tasklist';
 import { renderDialogForm } from './components/forms/forms';
+import { renderDialogForm } from './components/forms/forms';
 
 const taskList = new ListManager('task-list-store', Task);
 
@@ -59,14 +60,15 @@ openDialogButtons.forEach((button) => {
     button.addEventListener('click', () => {
         dialog.showModal();
 
-        const dialogForm = document.querySelector('dialog > form');
+        const buttonAction = button.dataset.action;
+        const dialogForm = document.querySelector('dialog > div');
 
         while (dialogForm.firstChild) {
             dialogForm.removeChild(dialogForm.firstChild);
         }
 
-        const form = renderDialogForm(button.dataset.action);
-        dialogForm.appendChild(form);
+        const formContent = renderDialogForm(buttonAction);
+        dialogForm.appendChild(formContent);
     });
 });
 

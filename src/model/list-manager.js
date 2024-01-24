@@ -1,3 +1,5 @@
+import Task from './task';
+
 /**
  * A singleton class providing public interfaces to work with the storage
  */
@@ -22,24 +24,22 @@ class StoreManager {
 }
 
 /**
- * A class for constructing List Objects
+ * A singleton class for constructing List Objects
  */
-export default class ListManager {
-    constructor(LIST_KEY, ITEM_CLASS) {
-        this.LIST_KEY = LIST_KEY;
-        this.ITEM_CLASS = ITEM_CLASS;
+export default class TaskListManager {
+    static LIST_KEY = 'task-list-store';
+    static ITEM_CLASS = Task;
 
-        this.itemsList;
+    static itemsList;
 
-        this.subsribers = [];
-    }
+    static subsribers = [];
 
     // Methods to retrieve items
-    getItems() {
+    static getItems() {
         return this.itemsList;
     }
 
-    #getItemIndex(UID) {
+    static getItemIndex(UID) {
         const index = this.itemsList.findIndex(({ id }) => id === UID);
 
         if (index === null) {
@@ -50,18 +50,18 @@ export default class ListManager {
     }
 
     // Methods to add and remove items
-    updateStore() {
+    static updateStore() {
         StoreManager.updateStore(this.itemsList, this.LIST_KEY);
     }
 
-    addItem(item) {
+    static addItem(item) {
         this.itemsList.push(new this.ITEM_CLASS(item));
 
         this.notifySubs(this.getItems());
         this.updateStore();
     }
 
-    deleteItem(id) {
+    static deleteItem(id) {
         if (this.itemsList.length === 0) return;
 
         const filteredItems = this.itemsList.filter((item) => {
@@ -75,8 +75,8 @@ export default class ListManager {
     }
 
     // Methods to mutate items
-    toggleField(action, id) {
-        const itemIndex = this.#getItemIndex(id);
+    static toggleField(action, id) {
+        const itemIndex = this.getItemIndex(id);
 
         try {
             this.itemsList[itemIndex].toggle(action);
@@ -88,26 +88,26 @@ export default class ListManager {
     }
 
     // PubSub for list
-    sub(subsriber) {
+    static sub(subsriber) {
         if (typeof subsriber !== 'function') {
             throw new Error(`Type ${typeof subsriber} is not a function`);
         }
         this.subsribers = [...this.subsribers, subsriber];
     }
 
-    unsub(subsriber) {
+    static unsub(subsriber) {
         if (typeof subsriber !== 'function') {
             throw new Error(`Type ${typeof subsriber} is not a function`);
         }
         this.subsribers = this.subsribers.filter((sub) => sub !== subsriber);
     }
 
-    notifySubs(message) {
+    static notifySubs(message) {
         this.subsribers.forEach((subsriber) => subsriber(message));
     }
 
     // Method to call if tasks is undefined to initialise from store
-    initList() {
+    static initList() {
         if (!this.itemsList) {
             const store = StoreManager.loadStore(this.LIST_KEY);
 

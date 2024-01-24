@@ -1,6 +1,6 @@
 import './style.css';
 
-import ListManager from './model/list-manager';
+import TaskListManager from './model/list-manager';
 import Task from './model/task';
 import renderTaskList from './components/tasklist';
 import { renderDialogForm } from './components/forms';
@@ -36,11 +36,9 @@ function mountModals() {
 
 mountModals();
 
-const taskList = new ListManager('task-list-store', Task);
+TaskListManager.sub(renderTaskList);
 
-taskList.sub(renderTaskList);
-
-taskList.initList();
+TaskListManager.initList();
 
 function handleTaskListClick(event) {
     // only handle clicks on elements with an action attribute
@@ -54,12 +52,12 @@ function handleTaskListClick(event) {
     console.log(`Will do ${action} on task with ID ${taskID}`);
 
     if (action === 'delete') {
-        taskList.deleteItem(taskID);
+        TaskListManager.deleteItem(taskID);
         return;
     }
 
     if (action === 'urgent' || action === 'complete') {
-        taskList.toggleField(action, taskID);
+        TaskListManager.toggleField(action, taskID);
         return;
     }
 

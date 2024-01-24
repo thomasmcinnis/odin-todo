@@ -1,7 +1,14 @@
 import Task from './task';
 
 /**
- * A singleton class providing public interfaces to work with the storage
+ * A decorator function for constructing singletons from any Class
+ */
+function singletonDecorator(Class, ...args) {
+    Class.instance = new Class(...args);
+}
+
+/**
+ * Un-instantiated singleton providing interfaces to work with localStorage
  */
 class StoreManager {
     // Load the local data store
@@ -24,22 +31,23 @@ class StoreManager {
 }
 
 /**
- * A singleton class for constructing List Objects
+ * A base class for all the functions needed to manage a list
  */
-export default class TaskListManager {
-    static LIST_KEY = 'task-list-store';
-    static ITEM_CLASS = Task;
+class ListManager {
+    constructor(listKey, listItemClass) {
+        this.LIST_KEY = listKey;
+        this.ITEM_CLASS = listItemClass;
 
-    static itemsList;
-
-    static subsribers = [];
+        this.itemsList;
+        this.subsribers = [];
+    }
 
     // Methods to retrieve items
-    static getItems() {
+    getItems() {
         return this.itemsList;
     }
 
-    static getItemIndex(UID) {
+    getItemIndex(UID) {
         const index = this.itemsList.findIndex(({ id }) => id === UID);
 
         if (index === null) {
@@ -50,18 +58,18 @@ export default class TaskListManager {
     }
 
     // Methods to add and remove items
-    static updateStore() {
+    updateStore() {
         StoreManager.updateStore(this.itemsList, this.LIST_KEY);
     }
 
-    static addItem(item) {
+    addItem(item) {
         this.itemsList.push(new this.ITEM_CLASS(item));
 
         this.notifySubs(this.getItems());
         this.updateStore();
     }
 
-    static deleteItem(id) {
+    deleteItem(id) {
         if (this.itemsList.length === 0) return;
 
         const filteredItems = this.itemsList.filter((item) => {
@@ -75,7 +83,7 @@ export default class TaskListManager {
     }
 
     // Methods to mutate items
-    static toggleField(action, id) {
+    toggleField(action, id) {
         const itemIndex = this.getItemIndex(id);
 
         try {
@@ -88,26 +96,26 @@ export default class TaskListManager {
     }
 
     // PubSub for list
-    static sub(subsriber) {
+    sub(subsriber) {
         if (typeof subsriber !== 'function') {
             throw new Error(`Type ${typeof subsriber} is not a function`);
         }
         this.subsribers = [...this.subsribers, subsriber];
     }
 
-    static unsub(subsriber) {
+    unsub(subsriber) {
         if (typeof subsriber !== 'function') {
             throw new Error(`Type ${typeof subsriber} is not a function`);
         }
         this.subsribers = this.subsribers.filter((sub) => sub !== subsriber);
     }
 
-    static notifySubs(message) {
+    notifySubs(message) {
         this.subsribers.forEach((subsriber) => subsriber(message));
     }
 
     // Method to call if tasks is undefined to initialise from store
-    static initList() {
+    initList() {
         if (!this.itemsList) {
             const store = StoreManager.loadStore(this.LIST_KEY);
 
@@ -121,3 +129,10 @@ export default class TaskListManager {
         this.updateStore(); // sync store with itemsList prob redundant
     }
 }
+
+// The task list manager class with methods specific to Tasks
+class TaskListManager extends ListManager {}
+
+// Instantiate the TaskListManager as a singleton and export to the app
+singletonDecorator(TaskListManager, 'task-list-store', Task);
+export const taskListManager = TaskListManager.instance;

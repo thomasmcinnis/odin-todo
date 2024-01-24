@@ -1,44 +1,15 @@
 import './style.css';
 
-import TaskListManager from './model/list-manager';
-import Task from './model/task';
+import { taskListManager } from './model/list-manager';
+
 import renderTaskList from './components/tasklist';
-import { renderDialogForm } from './components/forms';
-
-function mountModals() {
-    const dialog = document.querySelector('dialog');
-    const dialogCloseButton = document.querySelector('dialog button');
-
-    // Get all the buttons on the page with class 'open-dialog'
-    const openDialogButtons = document.querySelectorAll('button.open-dialog');
-
-    // Add event listener for each, and selectively inject the right form
-    openDialogButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            dialog.showModal();
-
-            const buttonAction = button.dataset.action;
-            const dialogForm = document.querySelector('dialog > form');
-
-            while (dialogForm.firstChild) {
-                dialogForm.removeChild(dialogForm.firstChild);
-            }
-
-            const formContent = renderDialogForm(buttonAction);
-            dialogForm.appendChild(formContent);
-        });
-    });
-
-    dialogCloseButton.addEventListener('click', () => {
-        dialog.close();
-    });
-}
+import { mountModals } from './components/modals';
 
 mountModals();
 
-TaskListManager.sub(renderTaskList);
+taskListManager.sub(renderTaskList);
 
-TaskListManager.initList();
+taskListManager.initList();
 
 function handleTaskListClick(event) {
     // only handle clicks on elements with an action attribute
@@ -52,12 +23,12 @@ function handleTaskListClick(event) {
     console.log(`Will do ${action} on task with ID ${taskID}`);
 
     if (action === 'delete') {
-        TaskListManager.deleteItem(taskID);
+        taskListManager.deleteItem(taskID);
         return;
     }
 
     if (action === 'urgent' || action === 'complete') {
-        TaskListManager.toggleField(action, taskID);
+        taskListManager.toggleField(action, taskID);
         return;
     }
 

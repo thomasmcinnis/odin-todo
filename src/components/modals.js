@@ -1,30 +1,37 @@
-import { renderDialogForm } from './forms';
+import { taskListManager } from '../model/list-manager';
 
 export function mountModals() {
-    const dialog = document.querySelector('dialog');
-    const dialogCloseButton = document.querySelector('dialog button');
+    // Get all the dialogs
+    const newTaskDialog = document.querySelector('#add-task-modal');
+    // const newCategoryDialog = document.querySelector('#add-category-modal');
 
-    // Get all the buttons on the page with class 'open-dialog'
-    const openDialogButtons = document.querySelectorAll('button.open-dialog');
-
-    // Add event listener for each, and selectively inject the right form
-    openDialogButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            dialog.showModal();
-
-            const buttonAction = button.dataset.action;
-            const dialogForm = document.querySelector('dialog > form');
-
-            while (dialogForm.firstChild) {
-                dialogForm.removeChild(dialogForm.firstChild);
-            }
-
-            const formContent = renderDialogForm(buttonAction);
-            dialogForm.appendChild(formContent);
-        });
+    const newTaskButton = document.querySelector('#add-task-btn');
+    newTaskButton.addEventListener('click', () => {
+        newTaskDialog.showModal();
     });
 
-    dialogCloseButton.addEventListener('click', () => {
-        dialog.close();
-    });
+    // const newCategoryButton = document.querySelector('#add-category-btn');
+    // newCategoryButton.addEventListener('click', () => {
+    //     newCategoryDialog.showModal();
+    // });
+
+    // add event listeners for each dialog
+    const newTaskForm = newTaskDialog.querySelector('form');
+
+    newTaskForm.onclose = () => {
+        console.log('closed:', newTaskForm.returnValue);
+    };
+
+    newTaskForm.oncancel = () => {
+        console.log('cancelled: ', newTaskForm.returnValue);
+    };
+
+    newTaskForm.onsubmit = (event) => {
+        event.preventDefault();
+
+        const data = new FormData(event.target);
+        // Honestly FormData api feels like magic
+        const value = Object.fromEntries(data.entries());
+        taskListManager.addItem(value);
+    };
 }

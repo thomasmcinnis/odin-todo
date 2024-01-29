@@ -7,14 +7,12 @@
     </head>
     <body>
         <div id="top-menu">
-            <button class="open-dialog" data-action="add-task">
-                + Add Task
-            </button>
+            <button class="open-dialog" id="add-task-btn">+ Add Task</button>
         </div>
         <div id="side-menu">
             <button class="category-btn">Category One</button>
             <button class="category-btn">Category Two</button>
-            <button class="open-dialog" data-action="add-category">
+            <button class="open-dialog" id="add-category-btn">
                 + Add Category
             </button>
         </div>
@@ -24,9 +22,38 @@
             </ul>
         </main>
         <dialog id="add-task-modal">
-            <h2>Add your next task</h2>
-            <button>close</button>
-            <form method="dialog"></form>
+            <h2>Add task</h2>
+            <form>
+                <p>
+                    <label for="name"
+                        >Task name:
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            placeholder="Enter task name"
+                            required
+                        />
+                    </label>
+                </p>
+                <p>
+                    <label for="category"
+                        >Task category:
+                        <input
+                            type="text"
+                            name="category"
+                            id="category"
+                            placeholder="Enter task category"
+                        />
+                    </label>
+                </p>
+                <menu>
+                    <button class="close" formmethod="dialog" value="close">
+                        Cancel
+                    </button>
+                    <button class="submit" value="submit">Add</button>
+                </menu>
+            </form>
         </dialog>
     </body>
 </html>

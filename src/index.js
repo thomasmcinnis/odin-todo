@@ -5,11 +5,10 @@ import { taskListManager } from './model/list-manager';
 import renderTaskList from './components/tasklist';
 import { mountModals } from './components/modals';
 
-mountModals();
-
 taskListManager.sub(renderTaskList);
-
 taskListManager.initList();
+
+mountModals();
 
 function handleTaskListClick(event) {
     // only handle clicks on elements with an action attribute

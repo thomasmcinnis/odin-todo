@@ -24,29 +24,34 @@
         <dialog id="add-task-modal">
             <h2>Add task</h2>
             <form formmethod="dialog">
-                <p>
-                    <label for="name"
-                        >Task name:
-                        <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            placeholder="Enter task name"
-                            required
-                        />
-                    </label>
-                </p>
-                <p>
-                    <label for="category"
-                        >Task category:
-                        <input
-                            type="text"
-                            name="category"
-                            id="category"
-                            placeholder="Enter task category"
-                        />
-                    </label>
-                </p>
+                <div>
+                    <label for="name">Task name: </label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Enter task name"
+                        required
+                    />
+                </div>
+                <div>
+                    <label for="category">Task category: </label>
+                    <input
+                        type="text"
+                        name="category"
+                        id="category"
+                        placeholder="Enter task category"
+                    />
+                </div>
+                <div>
+                    <input type="checkbox" id="isUrgent" name="isUrgent" />
+                    <label for="isUrgent">Urgent</label>
+                </div>
+                <div>
+                    <label for="dueDate">Due date:</label>
+                    <input type="date" id="dueDate" name="dueDate" />
+                </div>
+
                 <menu>
                     <button class="close" value="close">Cancel</button>
                     <button class="submit" value="submit">Add</button>

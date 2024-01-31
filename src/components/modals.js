@@ -32,6 +32,8 @@ export function mountModals() {
         const data = new FormData(event.target);
         // Honestly FormData api feels like magic
         const value = Object.fromEntries(data.entries());
+        if (value.isUrgent) value.isUrgent = true;
+
         taskListManager.addItem(value);
     };
 }

@@ -82,7 +82,26 @@ class ListManager {
         this.updateStore();
     }
 
-    // Methods to mutate items
+    /**
+     * Takes in a values object and the id
+     * will merge passed in values with existing item values
+     */
+    updateItemValues(values, id) {
+        const itemIndex = this.getItemIndex(id);
+        let valuesArr = Object.entries(values);
+
+        valuesArr.forEach(([key, val]) => {
+            try {
+                this.itemsList[itemIndex].setValue(key, val);
+            } catch (err) {
+                console.error(err.message);
+            }
+        });
+
+        this.notifySubs(this.getItems());
+        this.updateStore();
+    }
+
     toggleField(propName, id) {
         const itemIndex = this.getItemIndex(id);
 
@@ -91,6 +110,7 @@ class ListManager {
         } catch (err) {
             console.error(err.message);
         }
+
         this.notifySubs(this.getItems());
         this.updateStore();
     }

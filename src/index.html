@@ -23,7 +23,7 @@
         </main>
         <dialog id="add-task-modal">
             <h2>Add task</h2>
-            <form>
+            <form formmethod="dialog">
                 <p>
                     <label for="name"
                         >Task name:
@@ -48,9 +48,7 @@
                     </label>
                 </p>
                 <menu>
-                    <button class="close" formmethod="dialog" value="close">
-                        Cancel
-                    </button>
+                    <button class="close" value="close">Cancel</button>
                     <button class="submit" value="submit">Add</button>
                 </menu>
             </form>

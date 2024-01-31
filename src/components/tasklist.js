@@ -6,7 +6,7 @@ function renderUrgentBtn(isUrgent) {
     urgentButton.setAttribute('tabindex', -1);
 
     if (isUrgent) urgentButton.setAttribute('urgent', 'true');
-    urgentButton.setAttribute('data-action', 'urgent');
+    urgentButton.setAttribute('data-action', 'isUrgent');
     urgentButton.classList.add('action-btn');
 
     urgentButton.innerHTML = `
@@ -52,7 +52,11 @@ function renderCheckBox(isComplete) {
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('tabindex', -1);
-    checkbox.setAttribute('data-action', 'complete');
+    checkbox.setAttribute('data-action', 'isComplete');
+
+    if (isComplete) {
+        checkbox.setAttribute('checked', true);
+    }
 
     checkboxWrapper.appendChild(checkbox);
 

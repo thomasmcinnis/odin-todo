@@ -26,13 +26,13 @@ function handleTaskListClick(event) {
         return;
     }
 
-    if (action === 'urgent' || action === 'complete') {
-        taskListManager.toggleField(action, taskID);
+    if (action === 'edit') {
+        // openEditDialog(taskID)
         return;
     }
 
-    if (action === 'edit') {
-        // openEditDialog(taskID)
+    if (action) {
+        taskListManager.toggleField(action, taskID);
         return;
     }
 }

@@ -1,4 +1,4 @@
-import Task from './task';
+import Task from './items';
 
 /**
  * A decorator function for constructing singletons from any Class
@@ -83,11 +83,11 @@ class ListManager {
     }
 
     // Methods to mutate items
-    toggleField(action, id) {
+    toggleField(propName, id) {
         const itemIndex = this.getItemIndex(id);
 
         try {
-            this.itemsList[itemIndex].toggle(action);
+            this.itemsList[itemIndex].toggle(propName);
         } catch (err) {
             console.error(err.message);
         }

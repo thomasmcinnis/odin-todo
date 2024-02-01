@@ -1,13 +1,19 @@
 import './style.css';
 
-import { taskListManager } from './model/list-manager';
-
+import { taskListManager, categoryListManager } from './model/list-manager';
 import renderTaskList from './components/tasklist';
+import renderCategoryList from './components/categorylist';
 import { mountModals } from './components/modals';
 
+// Subscribe view renderers to their respective list manager
 taskListManager.sub(renderTaskList);
-taskListManager.initList();
+categoryListManager.sub(renderCategoryList);
 
+// Initialise lists, retrieving values from storage if they exist
+taskListManager.initList();
+categoryListManager.initList();
+
+// DOM interaction stuff
 mountModals();
 
 function handleTaskListClick(event) {
@@ -19,23 +25,34 @@ function handleTaskListClick(event) {
     const taskID = event.target.closest('[data-id').dataset.id;
 
     // invoke relevant action with UID of task
-    console.log(`Will do ${action} on task with ID ${taskID}`);
-
-    if (action === 'delete') {
-        taskListManager.deleteItem(taskID);
-        return;
-    }
-
-    if (action === 'edit') {
-        // openEditDialog(taskID)
-        return;
-    }
-
-    if (action) {
-        taskListManager.toggleField(action, taskID);
-        return;
+    switch (action) {
+        case 'delete':
+            taskListManager.deleteItem(taskID);
+            break;
+        case 'edit':
+            // openEditDialog(taskID);
+            break;
+        default: // handle all toggle events
+            taskListManager.toggleItemValue(action, taskID);
     }
 }
 
 const tasksListElement = document.querySelector('#tasks-list');
 tasksListElement.addEventListener('click', handleTaskListClick);
+
+function handleCategoryListClick(event) {
+    // only handle clicks on elements with an action attribute
+    const actionEl = event.target.closest('[data-action]');
+    if (!actionEl) return;
+
+    const action = actionEl.dataset.action;
+    const categoryID = event.target.closest('[data-id').dataset.id;
+
+    // invoke relevant action with ID of item
+    if (action === 'select') {
+        categoryListManager.selectItem(categoryID);
+    }
+}
+
+const categoryListElement = document.querySelector('#category-list');
+categoryListElement.addEventListener('click', handleCategoryListClick);

@@ -1,4 +1,4 @@
-import Task from './items';
+import { Task, Category } from './items';
 
 /**
  * A decorator function for constructing singletons from any Class
@@ -102,7 +102,7 @@ class ListManager {
         this.updateStore();
     }
 
-    toggleField(propName, id) {
+    toggleItemValue(propName, id) {
         const itemIndex = this.getItemIndex(id);
 
         try {
@@ -150,9 +150,26 @@ class ListManager {
     }
 }
 
-// The task list manager class with methods specific to Tasks
+// The list managers with methods specific to them
 class TaskListManager extends ListManager {}
+
+class CategoryListManager extends ListManager {
+    constructor(...args) {
+        super(...args);
+        this.selected;
+    }
+
+    selectItem(id) {
+        this.selected = id === this.selected ? '' : id;
+        // On this change we need to notify either the tasklist renderer
+        // or the tasklistmanager that there are changes so that it
+        // re-renders with the list filtered to just this category
+    }
+}
 
 // Instantiate the TaskListManager as a singleton and export to the app
 singletonDecorator(TaskListManager, 'task-list-store', Task);
+singletonDecorator(CategoryListManager, 'category-list-store', Category);
+
 export const taskListManager = TaskListManager.instance;
+export const categoryListManager = CategoryListManager.instance;

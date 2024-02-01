@@ -33,7 +33,7 @@ class Item {
     }
 }
 
-export default class Task extends Item {
+export class Task extends Item {
     constructor(formData) {
         const { category, dueDate, isUrgent, isComplete, createdDate } =
             formData;
@@ -44,5 +44,13 @@ export default class Task extends Item {
         this.isUrgent = isUrgent === undefined ? false : isUrgent;
         this.isComplete = isComplete === undefined ? false : isComplete;
         this.createdDate = createdDate === undefined ? new Date() : createdDate;
+    }
+}
+
+export class Category extends Item {
+    constructor(formData) {
+        super(formData);
+
+        // TODO: add color option
     }
 }

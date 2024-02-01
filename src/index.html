@@ -10,8 +10,9 @@
             <button class="open-dialog" id="add-task-btn">+ Add Task</button>
         </div>
         <div id="side-menu">
-            <button class="category-btn">Category One</button>
-            <button class="category-btn">Category Two</button>
+            <ul id="category-list">
+                <!-- Task li here-->
+            </ul>
             <button class="open-dialog" id="add-category-btn">
                 + Add Category
             </button>
@@ -51,7 +52,25 @@
                     <label for="dueDate">Due date:</label>
                     <input type="date" id="dueDate" name="dueDate" />
                 </div>
-
+                <menu>
+                    <button class="close" value="close">Cancel</button>
+                    <button class="submit" value="submit">Add</button>
+                </menu>
+            </form>
+        </dialog>
+        <dialog id="add-category-modal">
+            <h2>Add category</h2>
+            <form formmethod="dialog">
+                <div>
+                    <label for="name">Task name: </label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Enter category name"
+                        required
+                    />
+                </div>
                 <menu>
                     <button class="close" value="close">Cancel</button>
                     <button class="submit" value="submit">Add</button>

@@ -1,21 +1,21 @@
-import { taskListManager } from '../model/list-manager';
+import { taskListManager, categoryListManager } from '../model/list-manager';
 
 export function mountModals() {
     // Get all the dialogs
     const newTaskDialog = document.querySelector('#add-task-modal');
-    // const newCategoryDialog = document.querySelector('#add-category-modal');
+    const newCategoryDialog = document.querySelector('#add-category-modal');
 
     const newTaskButton = document.querySelector('#add-task-btn');
     newTaskButton.addEventListener('click', () => {
         newTaskDialog.showModal();
     });
 
-    // const newCategoryButton = document.querySelector('#add-category-btn');
-    // newCategoryButton.addEventListener('click', () => {
-    //     newCategoryDialog.showModal();
-    // });
+    const newCategoryButton = document.querySelector('#add-category-btn');
+    newCategoryButton.addEventListener('click', () => {
+        newCategoryDialog.showModal();
+    });
 
-    // add event listeners for each dialog
+    // add event listener for new task form
     const newTaskForm = newTaskDialog.querySelector('form');
 
     newTaskForm.onclose = () => {
@@ -30,10 +30,29 @@ export function mountModals() {
         event.preventDefault();
 
         const data = new FormData(event.target);
-        // Honestly FormData api feels like magic
         const value = Object.fromEntries(data.entries());
         if (value.isUrgent) value.isUrgent = true;
 
         taskListManager.addItem(value);
+    };
+
+    // add event listener for new category form
+    const newCategoryForm = newCategoryDialog.querySelector('form');
+
+    newCategoryForm.onclose = () => {
+        console.log('closed:', newCategoryForm.returnValue);
+    };
+
+    newCategoryForm.oncancel = () => {
+        console.log('cancelled: ', newCategoryForm.returnValue);
+    };
+
+    newCategoryForm.onsubmit = (event) => {
+        event.preventDefault();
+
+        const data = new FormData(event.target);
+        const value = Object.fromEntries(data.entries());
+
+        categoryListManager.addItem(value);
     };
 }

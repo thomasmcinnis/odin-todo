@@ -1,3 +1,5 @@
+import { categoryListManager } from '../model/list-manager';
+
 function renderUrgentBtn(isUrgent) {
     const actionsDiv = document.createElement('div');
     actionsDiv.classList.add('task-actions');
@@ -18,7 +20,7 @@ function renderUrgentBtn(isUrgent) {
     return actionsDiv;
 }
 
-function renderTaskDetails(name, category, dueDate) {
+function renderTaskDetails(name, dueDate, category) {
     const taskDetails = document.createElement('div');
     taskDetails.classList.add('task-details');
 
@@ -35,8 +37,10 @@ function renderTaskDetails(name, category, dueDate) {
     }
 
     if (category) {
+        const name = categoryListManager.getCategoryName(category);
+
         const taskCategory = document.createElement('p');
-        taskCategory.textContent = category;
+        taskCategory.textContent = name;
         taskCategory.classList.add('task-category');
         taskDetails.appendChild(taskCategory);
     }

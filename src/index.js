@@ -3,15 +3,16 @@ import './style.css';
 import { taskListManager, categoryListManager } from './model/list-manager';
 import renderTaskList from './components/tasklist';
 import renderCategoryList from './components/categorylist';
-import { mountModals } from './components/modals';
+import { mountModals, updateTaskFormCategories } from './components/modals';
 
 // Subscribe view renderers to their respective list manager
 taskListManager.sub(renderTaskList);
 categoryListManager.sub(renderCategoryList);
+categoryListManager.sub(updateTaskFormCategories);
 
 // Initialise lists, retrieving values from storage if they exist
-taskListManager.initList();
 categoryListManager.initList();
+taskListManager.initList();
 
 // DOM interaction stuff
 mountModals();

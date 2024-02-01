@@ -165,6 +165,11 @@ class CategoryListManager extends ListManager {
         // or the tasklistmanager that there are changes so that it
         // re-renders with the list filtered to just this category
     }
+
+    getCategoryName(id) {
+        const name = this.itemsList[this.getItemIndex(id)].name;
+        return name;
+    }
 }
 
 // Instantiate the TaskListManager as a singleton and export to the app

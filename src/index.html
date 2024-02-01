@@ -30,27 +30,23 @@
                     <input
                         type="text"
                         name="name"
-                        id="name"
                         placeholder="Enter task name"
                         required
                     />
                 </div>
                 <div>
-                    <label for="category">Task category: </label>
-                    <input
-                        type="text"
-                        name="category"
-                        id="category"
-                        placeholder="Enter task category"
-                    />
+                    <label for="category">Task category:</label>
+                    <select name="category">
+                        <!-- Category options here-->
+                    </select>
                 </div>
                 <div>
-                    <input type="checkbox" id="isUrgent" name="isUrgent" />
+                    <input type="checkbox" name="isUrgent" />
                     <label for="isUrgent">Urgent</label>
                 </div>
                 <div>
                     <label for="dueDate">Due date:</label>
-                    <input type="date" id="dueDate" name="dueDate" />
+                    <input type="date" name="dueDate" />
                 </div>
                 <menu>
                     <button class="close" value="close">Cancel</button>

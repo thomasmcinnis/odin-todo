@@ -52,19 +52,47 @@ h6 {
 }
 
 :root {
-    --color-primary: hsl(0, 0%, 36%);
-    --color-muted: hsl(0, 0%, 64%);
-    --color-innactive: hsl(0, 0%, 80%);
+    /* Colours */
+    --_hue-primary: 230;
+    --_hue-secondary: 260;
+
+    /* Light Mode */
+    --bkg--light: var(--_hue-secondary) 25% 95%;
+    --txt--light: var(--_hue-primary) 40% 5%;
+    --accent--light: var(--_hue-primary) 70% 60%;
+    --muted--light: var(--_hue-secondary) 10% 70%;
+    /* Dark Mode */
+    --bkg--dark: var(--_hue-secondary) 15% 10%;
+    --txt--dark: var(--_hue-primary) 15% 90%;
+    --accent--dark: var(--_hue-primary) 80% 70%;
+    --muted--dark: var(--_hue-secondary) 15% 30%;
+
+    --bkg: var(--bkg--light);
+    --txt: var(--txt--light);
+    --accent: var(--accent--light);
+    --muted: var(--muted--light);
+    color-scheme: light;
 
     & :focus-visible {
-        outline: solid 1px var(--color-muted);
+        outline: solid 1px hsl(var(--accent) / 0.5);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bkg: var(--bkg--dark);
+        --txt: var(--txt--dark);
+        --accent: var(--accent--dark);
+        --muted: var(--muted--dark);
+        color-scheme: dark;
     }
 }
 
 body {
     font-family: sans-serif;
     font-size: 0.875rem;
-    color: var(--color-muted);
+    color: hsl(var(--txt));
+    background-color: hsl(var(--bkg));
 
     max-width: 62rem;
     margin: 2rem auto;
@@ -89,7 +117,7 @@ body {
 
 button {
     padding: 0.5rem 0;
-    color: var(--color-muted);
+    color: hsl(var(--txt));
     background: none;
     border: none;
     cursor: pointer;
@@ -100,23 +128,21 @@ button {
     }
 
     &:hover {
-        color: var(--color-primary);
+        color: hsl(var(--accent));
     }
 }
 
 .action-btn {
     padding: 0;
     width: 1.1rem;
-    color: var(--color-muted);
-    opacity: 0;
+    color: hsl(var(--muted));
 
     &:hover {
-        color: var(--color-primary);
-        opacity: 1;
+        color: hsl(var(--accent));
     }
 
     &[urgent='true'] {
-        opacity: 1;
+        color: hsl(var(--accent) / 0.8);
     }
 }
 
@@ -144,7 +170,7 @@ ul {
     }
 
     &.overdue {
-        border-color: red;
+        border-color: hsl(var(--accent));
     }
 }
 
@@ -158,11 +184,20 @@ ul {
 .task-name {
     font-size: 1rem;
     font-weight: 700;
-    color: var(--color-primary);
+    color: hsl(var(--accent));
 }
 
 .complete .task-name {
     text-decoration: line-through;
-    color: var(--color-muted);
-    font-weight: 500;
+    color: hsl(var(--muted));
+}
+
+.complete .task-details {
+    text-decoration: line-through;
+    color: hsl(var(--muted));
+}
+
+.complete .action-btn {
+    color: hsl(var(--muted));
+    opacity: 0.5;
 }

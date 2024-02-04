@@ -51,8 +51,6 @@ function handleCategoryListClick(event) {
     }
 
     if (action === 'delete') {
-        categoryListManager.deleteItem(categoryID);
-
         const tasksWithCategory = taskListManager
             .getItems()
             .filter((i) => i.categoryID === categoryID);
@@ -60,6 +58,7 @@ function handleCategoryListClick(event) {
         tasksWithCategory.forEach((task) =>
             taskListManager.updateItemValues({ categoryID: '' }, task.id)
         );
+        categoryListManager.deleteItem(categoryID);
     }
 }
 

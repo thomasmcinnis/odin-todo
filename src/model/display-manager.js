@@ -28,7 +28,7 @@ export default class DisplayManager {
     static filterCategory(id) {
         this.#selectedCategory = id === this.#selectedCategory ? '' : id;
 
-        renderTaskList(this.#filteredTaskList());
+        renderTaskList(this.#filteredTaskList(), this.#categoryList);
         renderCategoryList(this.#categoryList, this.#selectedCategory);
     }
 

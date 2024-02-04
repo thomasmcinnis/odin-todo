@@ -1,5 +1,3 @@
-import { categoryListManager } from '../model/list-manager';
-
 function renderUrgentBtn(isUrgent) {
     const actionsDiv = document.createElement('div');
     actionsDiv.classList.add('task-actions');
@@ -20,7 +18,7 @@ function renderUrgentBtn(isUrgent) {
     return actionsDiv;
 }
 
-function renderTaskDetails(name, dueDate, categoryID) {
+function renderTaskDetails(name, dueDate, categoryName) {
     const taskDetails = document.createElement('div');
     taskDetails.classList.add('task-details');
 
@@ -36,11 +34,9 @@ function renderTaskDetails(name, dueDate, categoryID) {
         taskDetails.appendChild(taskDate);
     }
 
-    if (categoryID) {
-        const name = categoryListManager.getCategoryName(categoryID);
-
+    if (categoryName) {
         const taskCategory = document.createElement('p');
-        taskCategory.textContent = name;
+        taskCategory.textContent = categoryName;
         taskCategory.classList.add('task-category');
         taskDetails.appendChild(taskCategory);
     }
@@ -67,7 +63,7 @@ function renderCheckBox(isComplete) {
     return checkboxWrapper;
 }
 
-function renderTaskItem(taskObject) {
+function renderTaskItem(taskObject, categoryName) {
     const { id, name, dueDate, categoryID, isUrgent, isComplete } = taskObject;
 
     // Create the container
@@ -78,14 +74,15 @@ function renderTaskItem(taskObject) {
 
     // Add content
     listItem.appendChild(renderCheckBox(isComplete));
-    listItem.appendChild(renderTaskDetails(name, dueDate, categoryID));
+    listItem.appendChild(renderTaskDetails(name, dueDate, categoryName));
     listItem.appendChild(renderUrgentBtn(isUrgent));
 
     return listItem;
 }
 
-export default function renderTaskList(tasks) {
+export default function renderTaskList(tasks, categories) {
     const tasksList = document.getElementById('tasks-list');
+    // console.log('rendering task list', tasks);
 
     // Remove current children
     while (tasksList.firstChild) {
@@ -93,9 +90,16 @@ export default function renderTaskList(tasks) {
     }
 
     // TODO: Sort by date and completion status
-    // TODO: Filter by selected category
 
     tasks.forEach((taskObject) => {
-        tasksList.appendChild(renderTaskItem(taskObject));
+        const { categoryID } = taskObject;
+
+        let categoryName = '';
+
+        if (categoryID) {
+            const category = categories.find((i) => i.id === categoryID);
+            categoryName = category.name;
+        }
+        tasksList.appendChild(renderTaskItem(taskObject, categoryName));
     });
 }

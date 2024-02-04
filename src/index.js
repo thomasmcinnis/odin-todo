@@ -49,6 +49,18 @@ function handleCategoryListClick(event) {
     if (action === 'select') {
         DisplayManager.filterCategory(categoryID);
     }
+
+    if (action === 'delete') {
+        categoryListManager.deleteItem(categoryID);
+
+        const tasksWithCategory = taskListManager
+            .getItems()
+            .filter((i) => i.categoryID === categoryID);
+
+        tasksWithCategory.forEach((task) =>
+            taskListManager.updateItemValues({ categoryID: '' }, task.id)
+        );
+    }
 }
 
 const categoryListElement = document.querySelector('#category-list');

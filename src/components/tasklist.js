@@ -20,7 +20,7 @@ function renderUrgentBtn(isUrgent) {
     return actionsDiv;
 }
 
-function renderTaskDetails(name, dueDate, category) {
+function renderTaskDetails(name, dueDate, categoryID) {
     const taskDetails = document.createElement('div');
     taskDetails.classList.add('task-details');
 
@@ -36,8 +36,8 @@ function renderTaskDetails(name, dueDate, category) {
         taskDetails.appendChild(taskDate);
     }
 
-    if (category) {
-        const name = categoryListManager.getCategoryName(category);
+    if (categoryID) {
+        const name = categoryListManager.getCategoryName(categoryID);
 
         const taskCategory = document.createElement('p');
         taskCategory.textContent = name;
@@ -68,7 +68,7 @@ function renderCheckBox(isComplete) {
 }
 
 function renderTaskItem(taskObject) {
-    const { id, name, dueDate, category, isUrgent, isComplete } = taskObject;
+    const { id, name, dueDate, categoryID, isUrgent, isComplete } = taskObject;
 
     // Create the container
     const listItem = document.createElement('li');
@@ -78,7 +78,7 @@ function renderTaskItem(taskObject) {
 
     // Add content
     listItem.appendChild(renderCheckBox(isComplete));
-    listItem.appendChild(renderTaskDetails(name, dueDate, category));
+    listItem.appendChild(renderTaskDetails(name, dueDate, categoryID));
     listItem.appendChild(renderUrgentBtn(isUrgent));
 
     return listItem;

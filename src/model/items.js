@@ -35,11 +35,11 @@ class Item {
 
 export class Task extends Item {
     constructor(formData) {
-        const { category, dueDate, isUrgent, isComplete, createdDate } =
+        const { categoryID, dueDate, isUrgent, isComplete, createdDate } =
             formData;
 
         super(formData);
-        this.category = category;
+        this.categoryID = categoryID;
         this.dueDate = dueDate;
         this.isUrgent = isUrgent === undefined ? false : isUrgent;
         this.isComplete = isComplete === undefined ? false : isComplete;

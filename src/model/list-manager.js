@@ -158,15 +158,6 @@ class TaskListManager extends ListManager {}
 class CategoryListManager extends ListManager {
     constructor(...args) {
         super(...args);
-        this.selected;
-    }
-
-    selectItem(id) {
-        this.selected = id === this.selected ? '' : id;
-        console.log(this.selected);
-        // On this change we need to notify either the tasklist renderer
-        // or the tasklistmanager that there are changes so that it
-        // re-renders with the list filtered to just this category
     }
 
     getCategoryName(id) {

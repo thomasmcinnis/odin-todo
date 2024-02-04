@@ -1,4 +1,4 @@
-function renderCategoryItem(category) {
+function renderCategoryItem(category, selectedCategory) {
     const { id, name } = category;
 
     // Create the list item
@@ -11,6 +11,9 @@ function renderCategoryItem(category) {
     categoryName.setAttribute('tabindex', -1);
     categoryName.setAttribute('data-action', 'select');
     categoryName.textContent = name;
+    if (selectedCategory && selectedCategory === id) {
+        categoryName.classList.add('selected');
+    }
 
     // Add edit button
     const editButton = document.createElement('button');
@@ -30,15 +33,17 @@ function renderCategoryItem(category) {
     return listItem;
 }
 
-export default function renderCategoryList(categories) {
-    const categoryList = document.getElementById('category-list');
+export default function renderCategoryList(categories, selectedCategory) {
+    const categoryListElement = document.getElementById('category-list');
 
     // Remove current children
-    while (categoryList.firstChild) {
-        categoryList.removeChild(categoryList.firstChild);
+    while (categoryListElement.firstChild) {
+        categoryListElement.removeChild(categoryListElement.firstChild);
     }
 
     categories.forEach((category) => {
-        categoryList.appendChild(renderCategoryItem(category));
+        categoryListElement.appendChild(
+            renderCategoryItem(category, selectedCategory)
+        );
     });
 }

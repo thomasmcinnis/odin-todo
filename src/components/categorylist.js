@@ -9,7 +9,7 @@ function renderCategoryItem(category) {
     // Add name button
     const categoryName = document.createElement('button');
     categoryName.setAttribute('tabindex', -1);
-    categoryName.setAttribute('data-action', 'filter');
+    categoryName.setAttribute('data-action', 'select');
     categoryName.textContent = name;
 
     // Add edit button

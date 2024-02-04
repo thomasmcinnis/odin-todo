@@ -65,7 +65,7 @@ class ListManager {
     addItem(item) {
         this.itemsList.push(new this.ITEM_CLASS(item));
 
-        this.notifySubs(this.getItems());
+        this.notifySubs();
         this.updateStore();
     }
 
@@ -78,7 +78,7 @@ class ListManager {
 
         this.itemsList = filteredItems;
 
-        this.notifySubs(this.getItems());
+        this.notifySubs();
         this.updateStore();
     }
 
@@ -98,7 +98,7 @@ class ListManager {
             }
         });
 
-        this.notifySubs(this.getItems());
+        this.notifySubs();
         this.updateStore();
     }
 
@@ -111,7 +111,7 @@ class ListManager {
             console.error(err.message);
         }
 
-        this.notifySubs(this.getItems());
+        this.notifySubs();
         this.updateStore();
     }
 
@@ -130,8 +130,10 @@ class ListManager {
         this.subsribers = this.subsribers.filter((sub) => sub !== subsriber);
     }
 
-    notifySubs(message) {
-        this.subsribers.forEach((subsriber) => subsriber(message));
+    notifySubs() {
+        this.subsribers.forEach((subsriber) =>
+            subsriber(this.LIST_KEY, this.getItems())
+        );
     }
 
     // Method to call if tasks is undefined to initialise from store
@@ -143,7 +145,7 @@ class ListManager {
                 ? store.map((item) => new this.ITEM_CLASS(item))
                 : [];
 
-            this.notifySubs(this.getItems());
+            this.notifySubs();
         }
 
         this.updateStore(); // sync store with itemsList prob redundant
@@ -161,6 +163,7 @@ class CategoryListManager extends ListManager {
 
     selectItem(id) {
         this.selected = id === this.selected ? '' : id;
+        console.log(this.selected);
         // On this change we need to notify either the tasklist renderer
         // or the tasklistmanager that there are changes so that it
         // re-renders with the list filtered to just this category

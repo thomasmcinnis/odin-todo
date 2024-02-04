@@ -1,17 +1,16 @@
 import './style.css';
 
 import { taskListManager, categoryListManager } from './model/list-manager';
-import renderTaskList from './components/tasklist';
-import renderCategoryList from './components/categorylist';
+import DisplayManager from './model/display-manager';
+
 import { mountModals, updateTaskFormCategories } from './components/modals';
 
-// Subscribe view renderers to their respective list manager
-taskListManager.sub(renderTaskList);
-categoryListManager.sub(renderCategoryList);
-categoryListManager.sub(updateTaskFormCategories);
+// Subscribe display manager to respective list managers
+taskListManager.sub(DisplayManager.updateView.bind(DisplayManager));
+categoryListManager.sub(DisplayManager.updateView.bind(DisplayManager));
 
 // Initialise lists, retrieving values from storage if they exist
-// This will also call subscribed view renderers with updated data
+// This will also display manager with updated data
 categoryListManager.initList();
 taskListManager.initList();
 
@@ -54,16 +53,12 @@ function handleCategoryListClick(event) {
     if (!actionEl) return;
 
     const action = actionEl.dataset.action;
-    const categoryID = event.target.closest('[data-id').dataset.id;
+    const categoryListElement = event.target.closest('[data-id]');
+    const categoryID = categoryListElement.dataset.id;
 
     // invoke relevant action with ID of item
     if (action === 'select') {
-        categoryListManager.selectItem(categoryID);
-        // Curently the category list "knows" which category is selected
-        // Why? This should be the domain of the view only
-        // Create some view state object to track, let the view renderers sub
-        // to that instead therefore they can update without needing to cross-
-        // contaminate between data managers and view
+        DisplayManager.filterCategory(categoryID);
     }
 }
 

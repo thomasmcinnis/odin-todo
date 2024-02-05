@@ -5,18 +5,16 @@ export function mountNewTaskModal() {
     const newTaskDialog = document.querySelector('#add-task-modal');
     const newTaskButton = document.querySelector('#add-task-btn');
     const newTaskForm = newTaskDialog.querySelector('form');
+    const reset = newTaskDialog.querySelector("[type='reset']");
 
     newTaskButton.addEventListener('click', () => {
         newTaskDialog.showModal();
     });
 
-    newTaskForm.onclose = () => {
-        console.log('closed:', newTaskForm.returnValue);
-    };
+    reset.addEventListener('click', () => {
+        newTaskDialog.close();
+    });
 
-    newTaskForm.oncancel = () => {
-        console.log('cancelled: ', newTaskForm.returnValue);
-    };
     newTaskForm.onsubmit = (event) => {
         event.preventDefault();
 
@@ -31,18 +29,16 @@ export function mountNewTaskModal() {
 export function mountNewCategoryModal() {
     const newCategoryDialog = document.querySelector('#add-category-modal');
     const newCategoryButton = document.querySelector('#add-category-btn');
+    const reset = newCategoryDialog.querySelector("[type='reset']");
+
     newCategoryButton.addEventListener('click', () => {
         newCategoryDialog.showModal();
     });
     const newCategoryForm = newCategoryDialog.querySelector('form');
 
-    newCategoryForm.onclose = () => {
-        console.log('closed:', newCategoryForm.returnValue);
-    };
-
-    newCategoryForm.oncancel = () => {
-        console.log('cancelled: ', newCategoryForm.returnValue);
-    };
+    reset.addEventListener('click', () => {
+        newCategoryDialog.close();
+    });
 
     newCategoryForm.onsubmit = (event) => {
         event.preventDefault();

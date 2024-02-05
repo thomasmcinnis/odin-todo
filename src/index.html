@@ -6,27 +6,28 @@
         <title>To Do App</title>
     </head>
     <body>
-        <div id="top-menu">
-            <button class="open-dialog" id="add-task-btn">+ Add Task</button>
-        </div>
-        <div id="side-menu">
+        <main>
+            <div id="side-menu">
+                <button class="open-dialog" id="add-category-btn">
+                    + Add Category
+                </button>
+            </div>
+            <div id="top-menu">
+                <button class="open-dialog" id="add-task-btn">
+                    + Add Task
+                </button>
+            </div>
             <ul id="category-list">
                 <!-- Task li here-->
             </ul>
-            <button class="open-dialog" id="add-category-btn">
-                + Add Category
-            </button>
-        </div>
-        <main>
             <ul id="tasks-list">
                 <!-- Task li here-->
             </ul>
         </main>
         <dialog id="add-task-modal">
-            <h2>Add task</h2>
-            <form formmethod="dialog">
+            <form>
                 <div>
-                    <label for="name">Task name: </label>
+                    <label for="name">Name: </label>
                     <input
                         type="text"
                         name="name"
@@ -35,30 +36,33 @@
                     />
                 </div>
                 <div>
-                    <label for="categoryID">Task category:</label>
+                    <label for="categoryID">Category:</label>
                     <select name="categoryID">
                         <!-- Category options here-->
                     </select>
                 </div>
                 <div>
                     <input type="checkbox" name="isUrgent" />
-                    <label for="isUrgent">Urgent</label>
+                    <label for="isUrgent">Mark urgent</label>
                 </div>
                 <div>
                     <label for="dueDate">Due date:</label>
                     <input type="date" name="dueDate" />
                 </div>
                 <menu>
-                    <button class="close" value="close">Cancel</button>
-                    <button class="submit" value="submit">Add</button>
+                    <li>
+                        <button type="reset" value="resetBtn">Cancel</button>
+                    </li>
+                    <li>
+                        <button type="submit" value="confirmBtn">Add</button>
+                    </li>
                 </menu>
             </form>
         </dialog>
         <dialog id="add-category-modal">
-            <h2>Add category</h2>
             <form formmethod="dialog">
                 <div>
-                    <label for="name">Task name: </label>
+                    <label for="name">Name:</label>
                     <input
                         type="text"
                         name="name"
@@ -68,8 +72,12 @@
                     />
                 </div>
                 <menu>
-                    <button class="close" value="close">Cancel</button>
-                    <button class="submit" value="submit">Add</button>
+                    <li>
+                        <button type="reset" value="resetBtn">Cancel</button>
+                    </li>
+                    <li>
+                        <button type="submit" value="confirmBtn">Add</button>
+                    </li>
                 </menu>
             </form>
         </dialog>

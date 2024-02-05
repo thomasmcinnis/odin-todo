@@ -21,6 +21,7 @@ export default class DisplayManager {
             this.#categoryList = listData;
             renderCategoryList(this.#categoryList, this.#selectedCategory);
             renderSelectCategoryList(this.#categoryList);
+            renderTaskList(this.#filteredTaskList(), this.#categoryList);
         }
     }
 

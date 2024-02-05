@@ -123,6 +123,35 @@ function deleteCategory(categoryID) {
     categoryListManager.deleteItem(categoryID);
 }
 
+function openEditCategoryForm(categoryID) {
+    const categoryIndex = categoryListManager.getItemIndex(categoryID);
+    const { name } = categoryListManager.itemsList[categoryIndex];
+
+    const editCategoryDialog = document.querySelector('#edit-category-modal');
+    const editCategory = editCategoryDialog.querySelector('form');
+    const reset = editCategoryDialog.querySelector("[type='reset']");
+
+    reset.addEventListener('click', () => {
+        editCategoryDialog.close();
+    });
+
+    editCategory.onsubmit = (event) => {
+        event.preventDefault();
+
+        const data = new FormData(event.target);
+        const value = Object.fromEntries(data.entries());
+
+        categoryListManager.updateItemValues(value, categoryID);
+        editCategoryDialog.close();
+    };
+
+    // Add the task values to the form inputs
+    const nameInput = editCategory.querySelector('input[type=text]');
+    nameInput.value = name;
+
+    editCategoryDialog.showModal();
+}
+
 function handleCategoryListClick(event) {
     // only handle clicks on elements with an action attribute
     const actionEl = event.target.closest('[data-action]');
@@ -138,6 +167,10 @@ function handleCategoryListClick(event) {
 
     if (action === 'delete') {
         deleteCategory(categoryID);
+    }
+
+    if (action === 'edit') {
+        openEditCategoryForm(categoryID);
     }
 }
 

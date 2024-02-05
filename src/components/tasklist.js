@@ -1,4 +1,4 @@
-function renderUrgentBtn(isUrgent) {
+function renderActionsDiv(isUrgent) {
     const actionsDiv = document.createElement('div');
     actionsDiv.classList.add('task-actions');
 
@@ -14,6 +14,14 @@ function renderUrgentBtn(isUrgent) {
     `;
 
     actionsDiv.appendChild(urgentButton);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.setAttribute('tabindex', -1);
+    deleteButton.setAttribute('data-action', 'delete');
+    deleteButton.classList.add('action-btn');
+    deleteButton.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M14.12 10.47L12 12.59l-2.13-2.12l-1.41 1.41L10.59 14l-2.12 2.12l1.41 1.41L12 15.41l2.12 2.12l1.41-1.41L13.41 14l2.12-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM8 9h8v10H8z"/></svg>`;
+
+    actionsDiv.appendChild(deleteButton);
 
     return actionsDiv;
 }
@@ -72,11 +80,12 @@ function renderTaskItem(taskObject, categoryName) {
     listItem.setAttribute('data-id', id);
     listItem.setAttribute('tabindex', 0);
     if (isComplete) listItem.classList.add('complete');
+    if (isUrgent) listItem.classList.add('urgent');
 
     // Add content
     listItem.appendChild(renderCheckBox(isComplete));
     listItem.appendChild(renderTaskDetails(name, dueDate, categoryName));
-    listItem.appendChild(renderUrgentBtn(isUrgent));
+    listItem.appendChild(renderActionsDiv(isUrgent));
 
     return listItem;
 }

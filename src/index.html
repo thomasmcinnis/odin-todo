@@ -9,13 +9,11 @@
         <main>
             <div id="side-menu">
                 <button class="open-dialog" id="add-category-btn">
-                    + Add Category
+                    + Category
                 </button>
             </div>
             <div id="top-menu">
-                <button class="open-dialog" id="add-task-btn">
-                    + Add Task
-                </button>
+                <button class="open-dialog" id="add-task-btn">+ Task</button>
             </div>
             <ul id="category-list">
                 <!-- Task li here-->
@@ -96,6 +94,22 @@
                 <div>
                     <label for="dueDate">Due date:</label>
                     <input type="date" name="dueDate" />
+                </div>
+                <menu>
+                    <li>
+                        <button type="reset" value="resetBtn">Cancel</button>
+                    </li>
+                    <li>
+                        <button type="submit" value="confirmBtn">Update</button>
+                    </li>
+                </menu>
+            </form>
+        </dialog>
+        <dialog id="edit-category-modal">
+            <form>
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" required />
                 </div>
                 <menu>
                     <li>

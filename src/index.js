@@ -39,10 +39,10 @@ const dummyTasks = [
     {
         name: 'File TPS report',
         dueDate: '2024-01-21',
-        isUrgent: true,
     },
     {
         name: 'Learn Javascript',
+        isUrgent: true,
     },
 ];
 

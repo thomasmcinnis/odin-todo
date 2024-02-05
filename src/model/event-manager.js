@@ -23,6 +23,7 @@ export function mountNewTaskModal() {
         if (value.isUrgent) value.isUrgent = true;
 
         taskListManager.addItem(value);
+        newTaskDialog.close();
     };
 }
 
@@ -47,7 +48,42 @@ export function mountNewCategoryModal() {
         const value = Object.fromEntries(data.entries());
 
         categoryListManager.addItem(value);
+        newCategoryDialog.close();
     };
+}
+
+function openEditTaskForm(taskID) {
+    const taskIndex = taskListManager.getItemIndex(taskID);
+    const { name, categoryID, dueDate } = taskListManager.itemsList[taskIndex];
+
+    const editTaskDialog = document.querySelector('#edit-task-modal');
+    const editTaskForm = editTaskDialog.querySelector('form');
+    const reset = editTaskDialog.querySelector("[type='reset']");
+
+    reset.addEventListener('click', () => {
+        editTaskDialog.close();
+    });
+
+    editTaskForm.onsubmit = (event) => {
+        event.preventDefault();
+
+        const data = new FormData(event.target);
+        const value = Object.fromEntries(data.entries());
+        if (value.isUrgent) value.isUrgent = true;
+
+        taskListManager.updateItemValues(value, taskID);
+        editTaskDialog.close();
+    };
+
+    // Add the task values to the form inputs
+    const nameInput = editTaskForm.querySelector('input[type=text]');
+    nameInput.value = name;
+    const categorySelect = editTaskForm.querySelector('select');
+    categorySelect.value = categoryID;
+    const dateInput = editTaskForm.querySelector('input[type=date]');
+    dateInput.value = dueDate;
+
+    editTaskDialog.showModal();
 }
 
 function handleTaskListClick(event) {
@@ -64,7 +100,7 @@ function handleTaskListClick(event) {
             taskListManager.deleteItem(taskID);
             break;
         case 'edit':
-            // openEditDialog(taskID);
+            openEditTaskForm(taskID);
             break;
         default: // handle all toggle events
             taskListManager.toggleItemValue(action, taskID);
@@ -74,6 +110,17 @@ function handleTaskListClick(event) {
 export function mountTaskList() {
     const tasksListElement = document.querySelector('#tasks-list');
     tasksListElement.addEventListener('click', handleTaskListClick);
+}
+
+function deleteCategory(categoryID) {
+    const tasksWithCategory = taskListManager
+        .getItems()
+        .filter((i) => i.categoryID === categoryID);
+
+    tasksWithCategory.forEach((task) =>
+        taskListManager.updateItemValues({ categoryID: '' }, task.id)
+    );
+    categoryListManager.deleteItem(categoryID);
 }
 
 function handleCategoryListClick(event) {
@@ -90,14 +137,7 @@ function handleCategoryListClick(event) {
     }
 
     if (action === 'delete') {
-        const tasksWithCategory = taskListManager
-            .getItems()
-            .filter((i) => i.categoryID === categoryID);
-
-        tasksWithCategory.forEach((task) =>
-            taskListManager.updateItemValues({ categoryID: '' }, task.id)
-        );
-        categoryListManager.deleteItem(categoryID);
+        deleteCategory(categoryID);
     }
 }
 

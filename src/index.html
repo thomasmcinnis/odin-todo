@@ -81,5 +81,31 @@
                 </menu>
             </form>
         </dialog>
+        <dialog id="edit-task-modal">
+            <form>
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" required />
+                </div>
+                <div>
+                    <label for="categoryID">Category:</label>
+                    <select name="categoryID">
+                        <!-- Category options here-->
+                    </select>
+                </div>
+                <div>
+                    <label for="dueDate">Due date:</label>
+                    <input type="date" name="dueDate" />
+                </div>
+                <menu>
+                    <li>
+                        <button type="reset" value="resetBtn">Cancel</button>
+                    </li>
+                    <li>
+                        <button type="submit" value="confirmBtn">Update</button>
+                    </li>
+                </menu>
+            </form>
+        </dialog>
     </body>
 </html>

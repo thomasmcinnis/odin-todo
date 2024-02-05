@@ -21,6 +21,7 @@ function renderUrgentBtn(isUrgent) {
 function renderTaskDetails(name, dueDate, categoryName) {
     const taskDetails = document.createElement('div');
     taskDetails.classList.add('task-details');
+    taskDetails.setAttribute('data-action', 'edit');
 
     const taskName = document.createElement('p');
     taskName.textContent = name;

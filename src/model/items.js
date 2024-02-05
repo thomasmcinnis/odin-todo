@@ -24,10 +24,10 @@ class Item {
         if (!this.hasOwnProperty(propName))
             throw new Error('Property does not exist');
 
-        if (typeof this[propName] !== typeof newValue)
-            throw new Error(
-                `Passed in value is not of type ${typeof this[propName]}`
-            );
+        // if (typeof this[propName] !== typeof newValue )
+        //     throw new Error(
+        //         `Passed in value is not of type ${typeof this[propName]}`
+        //     );
 
         this[propName] = newValue;
     }

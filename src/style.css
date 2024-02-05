@@ -188,7 +188,7 @@ ul {
     }
 
     &.overdue {
-        border-color: hsl(var(--accent));
+        border-color: red;
     }
 }
 
@@ -197,6 +197,10 @@ ul {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .task-name {
@@ -255,7 +259,7 @@ dialog menu {
 }
 
 dialog button {
-    padding: 0.5rem 0.875rem;
+    padding: 0.25rem 0.5rem;
     border: 1px solid hsl(var(--muted) / 0.8);
     border-radius: 0.25rem;
 

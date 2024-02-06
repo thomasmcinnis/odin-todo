@@ -76,11 +76,11 @@ function openEditTaskForm(taskID) {
     };
 
     // Add the task values to the form inputs
-    const nameInput = editTaskForm.querySelector('input[type=text]');
+    const nameInput = editTaskForm.querySelector('input[name="name"]');
     nameInput.value = name;
     const categorySelect = editTaskForm.querySelector('select');
     categorySelect.value = categoryID;
-    const dateInput = editTaskForm.querySelector('input[type=date]');
+    const dateInput = editTaskForm.querySelector('input[name="dueDate"]');
     dateInput.value = dueDate;
 
     editTaskDialog.showModal();
@@ -128,8 +128,14 @@ function openEditCategoryForm(categoryID) {
     const { name } = categoryListManager.itemsList[categoryIndex];
 
     const editCategoryDialog = document.querySelector('#edit-category-modal');
+    console.log(editCategoryDialog);
     const editCategory = editCategoryDialog.querySelector('form');
+    console.log(editCategory);
     const reset = editCategoryDialog.querySelector("[type='reset']");
+
+    // Add the task values to the form inputs
+    const nameInput = editCategory.querySelector('input[name="name"]');
+    nameInput.value = name;
 
     reset.addEventListener('click', () => {
         editCategoryDialog.close();
@@ -144,10 +150,6 @@ function openEditCategoryForm(categoryID) {
         categoryListManager.updateItemValues(value, categoryID);
         editCategoryDialog.close();
     };
-
-    // Add the task values to the form inputs
-    const nameInput = editCategory.querySelector('input[type=text]');
-    nameInput.value = name;
 
     editCategoryDialog.showModal();
 }
